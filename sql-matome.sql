@@ -11,7 +11,7 @@ AND created_at < '2025-01-01';
 SELECT *
 FROM users
 WHERE age < 30
-AND gender = '女性';
+AND gender = 'female';
 
 設問4
 SELECT product_name, price
@@ -21,7 +21,7 @@ FROM products;
 SELECT users.name, orders.order_date
 FROM orders
 JOIN users
-ON orders.users_id = users.id;
+ON orders.user_id = users.id;
 
 設問6
 SELECT
@@ -39,7 +39,7 @@ SELECT
     COUNT(orders.id) AS order_count
 FROM users
 LEFT JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 GROUP BY users.id, users.name;
 
 設問8
@@ -48,7 +48,7 @@ SELECT
     SUM(products.price * order_items.quantity) AS total_amount
 FROM users
 JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 JOIN order_items
 ON orders.id = order_items.order_id
 JOIN products
@@ -61,7 +61,7 @@ SELECT
     SUM(products.price * order_items.quantity) AS total_amount
 FROM users
 JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 JOIN order_items
 ON orders.id = order_items.order_id
 JOIN products
@@ -83,7 +83,7 @@ GROUP BY products.id, products.product_name;
 SELECT users.name
 FROM users
 LEFT JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 WHERE orders.id IS NULL;
 
 設問12
@@ -96,7 +96,7 @@ HAVING COUNT(*) >= 2;
 SELECT DISTINCT users.name
 FROM users
 JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 JOIN order_items
 ON orders.id = order_items.order_id
 JOIN products
@@ -112,7 +112,7 @@ SELECT
     products.price * order_items.quantity AS total_amount
 FROM orders
 JOIN users
-ON orders.users_id = users.id
+ON orders.user_id = users.id
 JOIN order_items
 ON orders.id = order_items.order_id
 JOIN products
@@ -154,7 +154,7 @@ SELECT
 FROM users
 JOIN (
     SELECT
-        orders.users_id,
+        orders.user_id,
         orders.id,
         SUM(products.price * order_items.quantity) AS total_amount
     FROM orders
@@ -162,9 +162,9 @@ JOIN (
     ON orders.id = order_items.order_id
     JOIN products
     ON order_items.product_id = products.id
-    GROUP BY orders.id, orders.users_id
+    GROUP BY orders.id, orders.user_id
 ) AS order_totals
-ON users.id = order_totals.users_id
+ON users.id = order_totals.user_id
 GROUP BY users.id, users.name;
 
 設問20
@@ -173,14 +173,14 @@ SELECT
     MAX(orders.order_date) AS latest_order_date
 FROM users
 JOIN orders
-ON users.id = orders.users_id
+ON users.id = orders.user_id
 GROUP BY users.id, users.name;
 
 設問21
 INSERT INTO users
 (id, name, age, gender, created_at)
 VALUES
-(6, '中村愛', 25, '女性', '2025-06-01');
+(6, '中村愛', 25, 'female', '2025-06-01');
 
 設問22
 INSERT INTO products
@@ -190,7 +190,7 @@ VALUES
 
 設問23
 INSERT INTO orders
-(id, users_id, order_date)
+(id, user_id, order_date)
 VALUES
 (10, 1, '2025-06-10');
 
